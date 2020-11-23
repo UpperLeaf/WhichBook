@@ -5,27 +5,33 @@ services:
         build:
             context: ./whichbook_apigateway
             dockerfile: ./dockerfile
-        ports: 
+        ports:
             - 8080:8080
         restart: always
-        networks: 
+        networks:
             whichbook_default_network:
                 ipv4_address: 172.26.0.2
     user_service:
         build:
             context: ./whichbook_user
             dockerfile: ./dockerfile
-        ports:
-            - 8081:8081
         restart: always
-        networks: 
+        networks:
             whichbook_default_network:
                 ipv4_address: 172.26.0.3
 
-networks: 
+    book_service:
+        build:
+            context: ./whichbook_book
+            dockerfile: ./dockerfile
+        restart: always
+        networks:
+            whichbook_default_network:
+                ipv4_address: 172.26.0.4
+
+networks:
     whichbook_default_network:
         driver: bridge
-        ipam: 
+        ipam:
             config:
                 - subnet: 172.26.0.0/16
-        
