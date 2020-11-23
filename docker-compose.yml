@@ -15,11 +15,14 @@ services:
         build:
             context: ./whichbook_user
             dockerfile: ./dockerfile
+        environment:
+            - "SPRING_PROFILES_ACTIVE=prod"
         restart: always
+        depends_on:
+            - redis_database
         networks:
             whichbook_default_network:
                 ipv4_address: 172.26.0.3
-
     book_service:
         build:
             context: ./whichbook_book
@@ -28,7 +31,12 @@ services:
         networks:
             whichbook_default_network:
                 ipv4_address: 172.26.0.4
-
+    redis_database:
+        image: redis
+        restart: always
+        networks:
+            whichbook_default_network:
+                ipv4_address: 172.26.0.6
 networks:
     whichbook_default_network:
         driver: bridge
